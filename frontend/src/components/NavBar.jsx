@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {assets} from '../assets/assets'
 import { Link, NavLink } from 'react-router-dom'
+import { ShopContext } from '../context/ShopContext';
 
 const NavBar = () => {
 
     const [visible, setVisible] = useState(false);
+
+    const {setShowSearch} = useContext(ShopContext);
 
   return (
     <div className='flex items-center justify-between py-5 font-medium'>
@@ -34,7 +37,7 @@ const NavBar = () => {
         </ul>
 
         <div className='flex items-center gap-6'>
-            <img src={assets.search_icon} alt="Search" className='w-5 cursor-pointer'/>
+            <img onClick={() => setShowSearch(true)} src={assets.search_icon} alt="Search" className='w-5 cursor-pointer'/>
 
             <div className='group relative'>
                 <img src={assets.profile_icon} alt="Profile" className='w-5 cursor-pointer'/>
@@ -51,7 +54,7 @@ const NavBar = () => {
                     <img src={assets.cart_icon} alt="Cart " className='w-5 cursor-pointer'/>
                     <p className='absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[10px]'>10</p>
             </Link>
-            <img onClick={()=>setVisible(true)} src={assets.menu_icon} alt="Menu" className='w-5 cursor-pointer sm:hidden'/>
+            <img onClick={()=>setVisible(false)} src={assets.menu_icon} alt="Menu" className='w-5 cursor-pointer sm:hidden'/>
         </div>
 
         <div className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white trasition-all ${visible ? 'w-full' : 'w-0'}`}>

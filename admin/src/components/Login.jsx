@@ -15,7 +15,6 @@ const Login = ({ setToken }) => {
       const response = await axios.post(`${backendUrl}/api/user/admin`, { email, password });
 
       if (response.data.success) {
-        //localStorage.setItem('admin-token', response.data.token);
         setToken(response.data.token);
       } else {
         toast.error(response.data.message);
@@ -28,13 +27,13 @@ const Login = ({ setToken }) => {
 
   return (
     <div className="flex justify-center items-center h-screen bg-white">
-      <form onSubmit={handleSubmit} className="bg-gray-100 p-8 rounded-lg shadow-md w-80">
+      <form onSubmit={handleSubmit} className="bg-gray-300 p-8 rounded-lg shadow-md w-80">
         <h2 className="text-2xl font-semibold mb-6 text-center">Admin Login</h2>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <input
           type="email"
           placeholder="Email"
-          className="w-full p-2 mb-4 border border-gray-300 rounded"
+          className="w-full p-2 mb-4 border border-gray-900 bg-gray-100 rounded"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -42,14 +41,14 @@ const Login = ({ setToken }) => {
         <input
           type="password"
           placeholder="Password"
-          className="w-full p-2 mb-4 border border-gray-300 rounded"
+          className="w-full p-2 mb-4 border border-gray-900 bg-gray-100 rounded"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          className="w-full bg-black text-white py-2 rounded transition"
         >
           Login
         </button>

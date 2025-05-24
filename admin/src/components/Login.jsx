@@ -1,55 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { backendUrl } from '../App';
+import { toast } from 'react-toastify';
 
-const Login = () => {
+const Login = ({ setToken }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+  const handleSubmit = async (e) => {
 
-    const OnsubmitHandler = async (e) => {
-        try{
-            e.preventDefault();
-        }catch (error){
+    try {
+      e.preventDefault();
+      const response = await axios.post(`${backendUrl}/api/user/admin`, { email, password });
 
-        }
+      if (response.data.success) {
+        //localStorage.setItem('admin-token', response.data.token);
+        setToken(response.data.token);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error(error.message);
     }
+  };
 
   return (
-    <div className='min-h-screen flex items-center justify-center w-full bg-white'>
-        <div className='bg-gray-200 shadow-md rounded-lg px-8 py-6 max-w-md w-full'>
-            <h1 className='text-2xl font-bold text-center mb-6 text-gray-800'>Admin Panel</h1>
-            <form onSubmit={OnsubmitHandler} className='space-y-4'>
-                <div className='mb-4'>
-                    <label htmlFor="email" className='block text-sm font-medium text-gray-700 mb-2'>Email Address</label>
-                    <input 
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
-                        id="email"
-                        className='rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500' 
-                        type='email' 
-                        placeholder='your@email.com' 
-                        required 
-                    />
-                </div>
-                <div className='mb-6'>
-                    <label htmlFor="password" className='block text-sm font-medium text-gray-700 mb-2'>Password</label>
-                    <input 
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                        id="password"
-                        className='rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500' 
-                        type='password' 
-                        placeholder='Enter your password' 
-                        required 
-                    />
-                </div>
-                <button 
-                    type='submit' 
-                    className='w-full bg-black text-white font-medium py-2 px-4 rounded-md transition duration-200 cursor-pointer'
-                >
-                    Login
-                </button>
-            </form>
-        </div>
+    <div className="flex justify-center items-center h-screen bg-white">
+      <form onSubmit={handleSubmit} className="bg-gray-100 p-8 rounded-lg shadow-md w-80">
+        <h2 className="text-2xl font-semibold mb-6 text-center">Admin Login</h2>
+        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full p-2 mb-4 border border-gray-300 rounded"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full p-2 mb-4 border border-gray-300 rounded"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+        >
+          Login
+        </button>
+      </form>
     </div>
   );
 };

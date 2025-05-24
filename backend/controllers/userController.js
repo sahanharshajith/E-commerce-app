@@ -64,18 +64,28 @@ const registerUser = async (req, res) => {
 }
 
 const adminLogin = async (req, res) => {
-    try{
-        const { email, password } = req.body;
-        if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD){
-            const token = jwt.sign(email+password, process.env.JWT_SECRET);
-            res.json({ success: true, token });
-        }else{
-            res.json({ success: false, message: 'Invalid credentials' });
-        }
-    }catch (error){
-        console.log(error);
-        res.json({ success: false, message: error.message });
+  try {
+    const { email, password } = req.body;
+
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      const token = jwt.sign(
+        { email }, // 🔐 payload should be an object
+        process.env.JWT_SECRET,
+        { expiresIn: '1d' } // optional but recommended
+      );
+
+      res.json({ success: true, token });
+    } else {
+      res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
-}
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 
 export { loginUser, registerUser, adminLogin };

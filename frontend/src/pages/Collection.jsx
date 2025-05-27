@@ -3,6 +3,7 @@ import { assets } from '../assets/assets';
 import { ShopContext } from '../context/ShopContext';
 import Title from '../components/Title';
 import ProductItem from '../components/ProductItem';
+// import axios from 'axios';
 
 const Collection = () => {
 
@@ -12,6 +13,18 @@ const Collection = () => {
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [sortType, setSortType] = useState('relevant');
+
+  // get all products on load
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const data = await axios.get('http://localhost:4000/api/product/list');
+  //     console.log('Fetched Products:', data.data.products);
+    
+  //   }
+
+  //   fetchProducts();
+  // }, [])
+  
 
   const toggleCategory = (e) => {
 
@@ -67,7 +80,7 @@ const Collection = () => {
 
   useEffect(() => {
     applyFilter(products);
-  },[category, subCategory, search, showSearch]); 
+  },[category, subCategory, search, showSearch,products]); 
 
   useEffect(() => {
     applyFilter(products);

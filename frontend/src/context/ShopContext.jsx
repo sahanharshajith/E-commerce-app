@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { products } from "../assets/assets";
+import { useEffect, useState } from "react";
+// import { products } from "../assets/assets";
 import { createContext } from "react";
 import { toast } from "react-toastify";
 export const ShopContext = createContext();
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const ShopContextProvider = ( props ) => {
 
@@ -12,6 +13,7 @@ const ShopContextProvider = ( props ) => {
     const [search, setSearch] = useState('');
     const [showSearch, setShowSearch] = useState(true);
     const [cartItems, setCartItems] = useState({});
+    const [products, setProducts] = useState([]); // Assuming products will be fetched from an API or passed as props
     const navigate = useNavigate();
 
     const addToCart = async (itemId, size) => {
@@ -68,6 +70,17 @@ const ShopContextProvider = ( props ) => {
         }
         return totalAmount;
     }
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+          const data = await axios.get('http://localhost:4000/api/product/list');
+          console.log('Fetched Products:', data.data.products);
+            setProducts(data.data.products);
+        
+        }
+    
+        fetchProducts();
+      }, [])
 
     const value = {
         products,

@@ -25,10 +25,7 @@ const PORT = process.env.PORT || 4000;
 // Middleware
 app.use(express.json({ limit: '10mb' })); // Added payload limit
 app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL || 'http://localhost:3000',
-    'http://localhost:5174'
-  ],
+  origin: '*',
   credentials: true
 }));
 

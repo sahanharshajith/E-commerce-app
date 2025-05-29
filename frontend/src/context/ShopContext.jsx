@@ -74,7 +74,7 @@ const ShopContextProvider = ( props ) => {
     useEffect(() => {
         const fetchProducts = async () => {
           const data = await axios.get('http://localhost:4000/api/product/list');
-          console.log('Fetched Products:', data.data.products);
+          //console.log('Fetched Products:', data.data.products);
             setProducts(data.data.products);
         
         }
@@ -95,7 +95,8 @@ const ShopContextProvider = ( props ) => {
         getCartCount,
         updatequntity,
         getCartAmount,
-        navigate
+        navigate,
+        setCartItems
     };
 
     return (
